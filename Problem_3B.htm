@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .checkbox-group {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button.reset {
+            background-color: #f44336;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            z-index: 2;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+    </style>
+    <title>Survey Form</title>
+</head>
+<body>
+    <form id="surveyForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" required>
+
+        <label for="country">Country:</label>
+        <select id="country" required>
+            <option value="">Select Country</option>
+            <option value="usa">USA</option>
+            <option value="canada">Canada</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <div class="checkbox-group">
+            <label>Gender:</label>
+            <label><input type="checkbox" name="gender" value="male"> Male</label>
+            <label><input type="checkbox" name="gender" value="female"> Female</label>
+            <!-- Add more options as needed -->
+        </div>
+
+        <label for="profession">Profession:</label>
+        <input type="text" id="profession" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <label for="mobile">Mobile Number:</label>
+        <input type="tel" id="mobile" required>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="button" class="reset" onclick="resetForm()">Reset</button>
+    </form>
+
+    <div class="overlay" onclick="closePopup()"></div>
+    <div class="popup" id="popup"></div>
+
+    <script>
+        function submitForm() {
+            // Perform validation
+            let form = document.getElementById('surveyForm');
+            if (form.checkValidity()) {
+                // Display submitted values in a popup
+                let popupContent = '';
+                let formData = new FormData(form);
+                for (let [key, value] of formData.entries()) {
+                    popupContent += `<p><strong>${key}:</strong> ${value}</p>`;
+                }
+
+                // Show popup
+                let popup = document.getElementById('popup');
+                popup.innerHTML = popupContent;
+                popup.style.display = 'block';
+                document.querySelector('.overlay').style.display = 'block';
+
+                // Reset the form
+                form.reset();
+            } else {
+                alert('Please fill out all the required fields.');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('surveyForm').reset();
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.querySelector('.overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
